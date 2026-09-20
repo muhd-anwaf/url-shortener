@@ -4,6 +4,8 @@ import com.example.url_shortener.entity.Url;
 import com.example.url_shortener.repository.UrlRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class UrlService {
 
@@ -33,4 +35,13 @@ public class UrlService {
         }
         return shortCode.toString();
     }
+
+    public String getOriginalUrl(String shortCode){
+        Optional<Url> url = urlRepository.findByShortCode(shortCode);
+        if(url.isEmpty()){
+            throw new RuntimeException("Short URL not found");
+        }
+        return url.get().getOriginalUrl();
+    }
+
 }
