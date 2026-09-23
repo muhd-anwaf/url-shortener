@@ -1,6 +1,7 @@
 package com.example.url_shortener.service;
 
 import com.example.url_shortener.entity.Url;
+import com.example.url_shortener.exception.ShortUrlNotFoundException;
 import com.example.url_shortener.repository.UrlRepository;
 import org.springframework.stereotype.Service;
 
@@ -39,7 +40,7 @@ public class UrlService {
     public String getOriginalUrl(String shortCode){
         Optional<Url> url = urlRepository.findByShortCode(shortCode);
         if(url.isEmpty()){
-            throw new RuntimeException("Short URL not found");
+            throw new ShortUrlNotFoundException("Short URL not found");
         }
         return url.get().getOriginalUrl();
     }
