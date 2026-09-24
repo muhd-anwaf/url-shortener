@@ -18,7 +18,12 @@ public class UrlService {
 
 
     public String createShortUrl(String originalUrl){
-        String shortCode = generateShortCode();
+
+        String shortCode ;
+        do{
+            shortCode = generateShortCode();
+        }while(urlRepository.existsByShortCode(shortCode));
+
         Url url = new Url();
         url.setShortCode(shortCode);
         url.setOriginalUrl(originalUrl);
