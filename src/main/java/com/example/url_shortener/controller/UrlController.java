@@ -1,6 +1,6 @@
 package com.example.url_shortener.controller;
 
-
+import com.example.url_shortener.dto.CreateUrlResponse;
 import com.example.url_shortener.dto.CreateUrlRequest;
 import com.example.url_shortener.service.UrlService;
 import jakarta.validation.Valid;
@@ -19,7 +19,7 @@ public class UrlController {
     }
 
     @PostMapping
-    public String createShortUrl(@Valid @RequestBody CreateUrlRequest request){
+    public CreateUrlResponse createShortUrl(@Valid @RequestBody CreateUrlRequest request){
         return urlService.createShortUrl(request.getOriginalUrl());
     }
 

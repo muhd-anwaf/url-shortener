@@ -1,5 +1,6 @@
 package com.example.url_shortener.service;
 
+import com.example.url_shortener.dto.CreateUrlResponse;
 import com.example.url_shortener.entity.Url;
 import com.example.url_shortener.exception.ShortUrlNotFoundException;
 import com.example.url_shortener.repository.UrlRepository;
@@ -17,7 +18,7 @@ public class UrlService {
     }
 
 
-    public String createShortUrl(String originalUrl){
+    public CreateUrlResponse createShortUrl(String originalUrl){
 
         String shortCode ;
         do{
@@ -28,7 +29,8 @@ public class UrlService {
         url.setShortCode(shortCode);
         url.setOriginalUrl(originalUrl);
         urlRepository.save(url);
-        return shortCode;
+        String shortUrl = "http://localhost:8080/" + shortCode;
+        return new CreateUrlResponse(shortCode,shortUrl,originalUrl);
     }
 
 
