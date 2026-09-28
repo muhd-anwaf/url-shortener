@@ -6,6 +6,7 @@ import com.example.url_shortener.exception.ShortUrlNotFoundException;
 import com.example.url_shortener.repository.UrlRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -28,9 +29,14 @@ public class UrlService {
         Url url = new Url();
         url.setShortCode(shortCode);
         url.setOriginalUrl(originalUrl);
+        url.setCreatedAt(LocalDateTime.now());
+
         urlRepository.save(url);
+
         String shortUrl = "http://localhost:8080/" + shortCode;
-        return new CreateUrlResponse(shortCode,shortUrl,originalUrl);
+
+
+        return new CreateUrlResponse(shortCode,shortUrl,originalUrl,url.getCreatedAt());
     }
 
 

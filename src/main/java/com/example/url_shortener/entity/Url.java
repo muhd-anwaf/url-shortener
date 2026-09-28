@@ -2,6 +2,8 @@ package com.example.url_shortener.entity;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 public class Url {
     @Id
@@ -13,6 +15,17 @@ public class Url {
 
     @Column(name="original_url",nullable = false)
     private String originalUrl;
+
+    @Column(name="created_at",nullable = false)
+    private LocalDateTime createdAt;
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
 
     public void setShortCode(String shortCode) {
         this.shortCode = shortCode;
