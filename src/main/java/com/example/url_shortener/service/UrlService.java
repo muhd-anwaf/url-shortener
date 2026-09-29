@@ -1,14 +1,20 @@
 package com.example.url_shortener.service;
 
 import com.example.url_shortener.dto.CreateUrlResponse;
+import com.example.url_shortener.dto.UrlPageResponse;
 import com.example.url_shortener.dto.UrlStatsResponse;
 import com.example.url_shortener.entity.Url;
 import com.example.url_shortener.exception.ShortUrlNotFoundException;
 import com.example.url_shortener.repository.UrlRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UrlService {
@@ -72,5 +78,17 @@ public class UrlService {
         int clickCount = url.get().getClickCount();
         return new UrlStatsResponse(shortCode,originalUrl,createdAt,clickCount);
 
+    }
+
+    public UrlPageResponse getAllUrls(int page , int size){
+        Pageable pageable = PageRequest.of(page,size);
+        Page<Url> urlPage = urlRepository.findAll(pageable);
+        List<UrlStatsResponse> urls = urlPage.getContent().stream().map(url->
+                new UrlStatsResponse
+                        (url.getShortCode(),url.getOriginalUrl(),
+                                url.getCreatedAt(),url.getClickCount())).toList();
+        return new UrlPageResponse
+                (urls,urlPage.getNumber(),urlPage.getSize(),
+                        urlPage.getTotalElements(),urlPage.getTotalPages());
     }
 }

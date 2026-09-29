@@ -2,6 +2,7 @@ package com.example.url_shortener.controller;
 
 import com.example.url_shortener.dto.CreateUrlResponse;
 import com.example.url_shortener.dto.CreateUrlRequest;
+import com.example.url_shortener.dto.UrlPageResponse;
 import com.example.url_shortener.dto.UrlStatsResponse;
 import com.example.url_shortener.service.UrlService;
 import jakarta.validation.Valid;
@@ -35,6 +36,12 @@ public class UrlController {
     @GetMapping("/{shortCode}/stats")
     public UrlStatsResponse createUrlStats(@PathVariable String shortCode){
         return urlService.createUrlStats(shortCode);
+    }
+
+    @GetMapping
+    public UrlPageResponse getAllUrls(@RequestParam(defaultValue = "0") int page,
+                                      @RequestParam(defaultValue = "10") int size){
+        return urlService.getAllUrls(page,size);
     }
 
 
