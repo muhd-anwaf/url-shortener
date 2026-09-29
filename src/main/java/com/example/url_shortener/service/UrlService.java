@@ -1,6 +1,7 @@
 package com.example.url_shortener.service;
 
 import com.example.url_shortener.dto.CreateUrlResponse;
+import com.example.url_shortener.dto.UrlStatsResponse;
 import com.example.url_shortener.entity.Url;
 import com.example.url_shortener.exception.ShortUrlNotFoundException;
 import com.example.url_shortener.repository.UrlRepository;
@@ -61,4 +62,15 @@ public class UrlService {
         return url.get().getOriginalUrl();
     }
 
+    public UrlStatsResponse createUrlStats(String shortCode) {
+        Optional<Url> url = urlRepository.findByShortCode(shortCode);
+        if(url.isEmpty()){
+            throw new ShortUrlNotFoundException("Short URL not found");
+        }
+        String originalUrl = url.get().getOriginalUrl();
+        LocalDateTime createdAt = url.get().getCreatedAt();
+        int clickCount = url.get().getClickCount();
+        return new UrlStatsResponse(shortCode,originalUrl,createdAt,clickCount);
+
+    }
 }

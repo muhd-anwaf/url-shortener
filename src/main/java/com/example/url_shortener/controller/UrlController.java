@@ -2,6 +2,7 @@ package com.example.url_shortener.controller;
 
 import com.example.url_shortener.dto.CreateUrlResponse;
 import com.example.url_shortener.dto.CreateUrlRequest;
+import com.example.url_shortener.dto.UrlStatsResponse;
 import com.example.url_shortener.service.UrlService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -29,6 +30,11 @@ public class UrlController {
         return ResponseEntity.status(HttpStatus.FOUND)
                 .header("Location",originalUrl)
                 .build();
+    }
+
+    @GetMapping("/{shortCode}/stats")
+    public UrlStatsResponse createUrlStats(@PathVariable String shortCode){
+        return urlService.createUrlStats(shortCode);
     }
 
 
