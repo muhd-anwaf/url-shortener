@@ -7,12 +7,18 @@ public class CreateUrlResponse {
     private String shortUrl;
     private String originalUrl;
     private LocalDateTime createdAt;
+    private int clickCount;
 
-    public CreateUrlResponse(String shortCode , String shortUrl , String originalUrl, LocalDateTime createdAt){
+    public CreateUrlResponse(String shortCode , String shortUrl , String originalUrl, LocalDateTime createdAt, int clickCount){
         this.shortCode = shortCode;
         this.shortUrl = shortUrl;
         this.originalUrl = originalUrl;
         this.createdAt = createdAt;
+        this.clickCount = clickCount;
+    }
+
+    public int getClickCount() {
+        return clickCount;
     }
 
     public LocalDateTime getCreatedAt() {

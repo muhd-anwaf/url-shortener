@@ -30,13 +30,14 @@ public class UrlService {
         url.setShortCode(shortCode);
         url.setOriginalUrl(originalUrl);
         url.setCreatedAt(LocalDateTime.now());
+        url.setClickCount(0);
 
         urlRepository.save(url);
 
         String shortUrl = "http://localhost:8080/" + shortCode;
 
 
-        return new CreateUrlResponse(shortCode,shortUrl,originalUrl,url.getCreatedAt());
+        return new CreateUrlResponse(shortCode,shortUrl,originalUrl,url.getCreatedAt(),url.getClickCount());
     }
 
 
@@ -55,6 +56,8 @@ public class UrlService {
         if(url.isEmpty()){
             throw new ShortUrlNotFoundException("Short URL not found");
         }
+        url.get().setClickCount(url.get().getClickCount()+1);
+        urlRepository.save(url.get());
         return url.get().getOriginalUrl();
     }
 

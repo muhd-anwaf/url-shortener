@@ -16,8 +16,19 @@ public class Url {
     @Column(name="original_url",nullable = false)
     private String originalUrl;
 
+    public int getClickCount() {
+        return clickCount;
+    }
+
+    public void setClickCount(int clickCount) {
+        this.clickCount = clickCount;
+    }
+
     @Column(name="created_at",nullable = false)
     private LocalDateTime createdAt;
+
+    @Column(name="click_count",nullable = false)
+    private int clickCount;
 
     public LocalDateTime getCreatedAt() {
         return createdAt;
