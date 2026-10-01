@@ -9,6 +9,7 @@ import com.example.url_shortener.repository.UrlRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -80,8 +81,18 @@ public class UrlService {
 
     }
 
-    public UrlPageResponse getAllUrls(int page , int size){
-        Pageable pageable = PageRequest.of(page,size);
+    public UrlPageResponse getAllUrls(
+            int page ,
+            int size,
+            String sortBy,
+            String direction
+        ){
+        Sort.Direction sortDirection =
+                Sort.Direction.fromString(direction);
+
+        Sort sort = Sort.by(sortDirection, sortBy);
+
+        Pageable pageable = PageRequest.of(page, size, sort);
         Page<Url> urlPage = urlRepository.findAll(pageable);
         List<UrlStatsResponse> urls = urlPage.getContent().stream().map(url->
                 new UrlStatsResponse
