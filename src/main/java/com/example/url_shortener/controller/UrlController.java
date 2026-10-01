@@ -6,12 +6,16 @@ import com.example.url_shortener.dto.UrlPageResponse;
 import com.example.url_shortener.dto.UrlStatsResponse;
 import com.example.url_shortener.service.UrlService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/urls")
+@Validated
 public class UrlController {
 
     private final UrlService urlService;
@@ -39,8 +43,10 @@ public class UrlController {
     }
 
     @GetMapping
-    public UrlPageResponse getAllUrls(@RequestParam(defaultValue = "0") int page,
-                                      @RequestParam(defaultValue = "10") int size){
+    public UrlPageResponse getAllUrls(
+            @RequestParam(defaultValue = "0") @Min(value = 0, message = "Page must be 0 or greater") int page,
+            @RequestParam(defaultValue = "10") @Min(value = 1 , message = "size must be atleast 1")
+            @Max(value = 101 ,message = "size >100") int size){
         return urlService.getAllUrls(page,size);
     }
 
